@@ -148,7 +148,7 @@ EOF
 }
 
 # Cài đặt XrayR và cấu hình
-bash <(curl -Ls https://raw.githubusercontent.com/qtai2901/XrayR-release/main/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/datprs2k1/XrayR-Script/refs/heads/main/install.sh)
 openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/443.crt -keyout /etc/XrayR/443.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
 cd /etc/XrayR
 cat >config.yml <<EOF
