@@ -118,7 +118,7 @@ install_XrayR() {
 	cd /usr/local/XrayR/
     
     if  [ $# == 0 ] ;then
-        last_version=$(curl -Ls "https://api.github.com/repos/XrayR-project/XrayR/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        last_version=$(curl -Ls "https://api.github.com/repos/datprs2k1/XrayR-Script/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$last_version" ]]; then
 	echo ""
             echo -e "  Phát hiện phiên bản XrayR không thành công, có thể vượt quá giới hạn GIthub API, vui lòng thử lại sau hoặc chỉ định cài đặt phiên bản XrayR theo cách thủ công${plain}"
@@ -128,7 +128,7 @@ install_XrayR() {
 	echo ""
         echo -e "  Phiên bản mới nhất của XrayR đã được phát hiện：${last_version}，Bắt đầu cài đặt"
 	echo ""
-        wget -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip https://github.com/XrayR-project/XrayR/releases/download/${last_version}/XrayR-linux-${arch}.zip
+        wget -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip https://github.com/datprs2k1/XrayR-Script/releases/download/${last_version}/XrayR-linux-${arch}.zip
         if [[ $? -ne 0 ]]; then
 	echo ""
             echo -e "  Tải xuống XrayR thất bại, hãy chắc chắn rằng máy chủ của bạn có thể tải về các tập tin Github${plain}"
@@ -137,7 +137,7 @@ install_XrayR() {
         fi
     else
         last_version=$1
-        url="https://github.com/XrayR-project/XrayR/releases/download/${last_version}/XrayR-linux-${arch}.zip"
+        url="https://github.com/datprs2k1/XrayR-Script/releases/download/${last_version}/XrayR-linux-${arch}.zip"
 	echo ""
         echo -e "  Bắt đầu cài đặt XrayR v$1"
 	echo ""
