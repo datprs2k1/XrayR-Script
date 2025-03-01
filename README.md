@@ -5,17 +5,9 @@ Một khung công tác back-end dựa trên Xray, hỗ trợ các giao thức V2
 
 
 ## Cài đặt 
-***Cài đặt thủ công***
-```
-bash <(curl -Ls https://raw.githubusercontent.com/DauDau432/XrayR-release/main/install.sh)
-```
 ***Cài đặt tự động***
 ```
-bash <(curl -Ls https://raw.githubusercontent.com/DauDau432/XrayR-release/main/XrayR_Pro.sh)
-```
-***Cài đặt cho Aikopanel***
-```
-bash <(curl -Ls https://raw.githubusercontent.com/DauDau432/XrayR-release/refs/heads/main/XrayR-Aikopanel.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/datprs2k1/XrayR-Script/main/XrayR_Setup.sh)
 ```
 ## Cấu hình xrayr
 Sử dụng `nano` hoặc `vi` để vào thư mục cấu hình
