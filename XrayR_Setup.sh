@@ -91,7 +91,7 @@ install_node() {
 
   cat >>/etc/XrayR/config.yml<<EOF
   -
-    PanelType: "newV2board" # Panel type: SSpanel, V2board, PMpanel, Proxypanel, V2RaySocks
+    PanelType: "NewV2board" # Panel type: SSpanel, V2board, PMpanel, Proxypanel, V2RaySocks
     ApiConfig:
       ApiHost: "https://${api_host}"
       ApiKey: "${api_key}"
