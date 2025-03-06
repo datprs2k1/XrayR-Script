@@ -1,8 +1,8 @@
 version: '3'
-services: 
-  aiko-server: 
+services:
+  aiko-server:
     image: aikocute/aikocutehotme:latest
     volumes:
-      - ./config:/etc/Aiko-Server/
+      - ./config:/etc/XrayR/
     restart: always
     network_mode: host

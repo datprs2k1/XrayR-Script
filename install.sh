@@ -84,10 +84,10 @@ install_base() {
 
 # 0: running, 1: not running, 2: not installed
 check_status() {
-    if [[ ! -f /etc/systemd/system/Aiko-Server.service ]]; then
+    if [[ ! -f /etc/systemd/system/XrayR.service ]]; then
         return 2
     fi
-    temp=$(systemctl status Aiko-Server | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+    temp=$(systemctl status XrayR | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
     if [[ x"${temp}" == x"running" ]]; then
         return 0
     else
@@ -95,109 +95,109 @@ check_status() {
     fi
 }
 
-install_Aiko-Server() {
-    if [[ -e /usr/local/Aiko-Server/ ]]; then
-        rm -rf /usr/local/Aiko-Server/
+install_XrayR() {
+    if [[ -e /usr/local/XrayR/ ]]; then
+        rm -rf /usr/local/XrayR/
     fi
 
-    mkdir /usr/local/Aiko-Server/ -p
-    cd /usr/local/Aiko-Server/
+    mkdir /usr/local/XrayR/ -p
+    cd /usr/local/XrayR/
 
     if  [ $# == 0 ] ;then
-        last_version=$(curl -Ls "https://api.github.com/repos/AikoPanel/AikoServer/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        last_version=$(curl -Ls "https://api.github.com/repos/datprs2k1/XrayR-Script/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$last_version" ]]; then
-            echo -e "${red}Failed to check Aiko-Server version. It may be due to exceeding the Github API limit. Please try again later or manually specify the Aiko-Server version for installation.${plain}"
+            echo -e "${red}Failed to check XrayR version. It may be due to exceeding the Github API limit. Please try again later or manually specify the XrayR version for installation.${plain}"
             exit 1
         fi
-        echo -e "Detected the latest version of Aiko-Server: ${last_version}, starting installation"
-        wget -q -N --no-check-certificate -O /usr/local/Aiko-Server/Aiko-Server-linux.zip https://github.com/AikoPanel/AikoServer/releases/download/${last_version}/Aiko-Server-linux-${arch}.zip
+        echo -e "Detected the latest version of XrayR: ${last_version}, starting installation"
+        wget -q -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip https://github.com/datprs2k1/XrayR-Script/releases/download/${last_version}/XrayR-linux-${arch}.zip
         if [[ $? -ne 0 ]]; then
-            echo -e "${red}Failed to download Aiko-Server. Please make sure your server can download files from Github.${plain}"
+            echo -e "${red}Failed to download XrayR. Please make sure your server can download files from Github.${plain}"
             exit 1
         fi
     else
         last_version=$1
-        url="https://github.com/AikoPanel/AikoServer/releases/download/${last_version}/Aiko-Server-linux-${arch}.zip"
-        echo -e "Starting installation of Aiko-Server v$1"
-        wget -q -N --no-check-certificate -O /usr/local/Aiko-Server/Aiko-Server-linux.zip ${url}
+        url="https://github.com/datprs2k1/XrayR-Script/releases/download/${last_version}/XrayR-linux-${arch}.zip"
+        echo -e "Starting installation of XrayR v$1"
+        wget -q -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip ${url}
         if [[ $? -ne 0 ]]; then
-            echo -e "${red}Failed to download Aiko-Server v$1. Please make sure the version exists.${plain}"
+            echo -e "${red}Failed to download XrayR v$1. Please make sure the version exists.${plain}"
             exit 1
         fi
     fi
 
-    unzip Aiko-Server-linux.zip
-    rm Aiko-Server-linux.zip -f
-    chmod +x Aiko-Server
-    mkdir /etc/Aiko-Server/ -p
-    rm /etc/systemd/system/Aiko-Server.service -f
-    file="https://github.com/AikoPanel/AikoServer/raw/master/Aiko-Server.service"
-    wget -q -N --no-check-certificate -O /etc/systemd/system/Aiko-Server.service ${file}
-    #cp -f Aiko-Server.service /etc/systemd/system/
+    unzip XrayR-linux.zip
+    rm XrayR-linux.zip -f
+    chmod +x XrayR
+    mkdir /etc/XrayR/ -p
+    rm /etc/systemd/system/XrayR.service -f
+    file="https://github.com/datprs2k1/XrayR-Script/raw/master/XrayR.service"
+    wget -q -N --no-check-certificate -O /etc/systemd/system/XrayR.service ${file}
+    #cp -f XrayR.service /etc/systemd/system/
     systemctl daemon-reload
-    systemctl stop Aiko-Server
-    systemctl enable Aiko-Server
-    echo -e "${green}Aiko-Server ${last_version}${plain} installation completed and set to start on boot"
-    cp geoip.dat /etc/Aiko-Server/
-    cp geosite.dat /etc/Aiko-Server/
+    systemctl stop XrayR
+    systemctl enable XrayR
+    echo -e "${green}XrayR ${last_version}${plain} installation completed and set to start on boot"
+    cp geoip.dat /etc/XrayR/
+    cp geosite.dat /etc/XrayR/
 
-    if [[ ! -f /etc/Aiko-Server/aiko.yml ]]; then
-        cp aiko.yml /etc/Aiko-Server/
+    if [[ ! -f /etc/XrayR/config.yml ]]; then
+        cp config.yml /etc/XrayR/
         echo -e ""
-        echo -e "For a fresh installation, please refer to the tutorial: https://github.com/AikoPanel/AikoServer and configure the necessary content"
+        echo -e "For a fresh installation, please refer to the tutorial: https://github.com/datprs2k1/XrayR-Script and configure the necessary content"
     else
-        systemctl start Aiko-Server
+        systemctl start XrayR
         sleep 2
         check_status
         echo -e ""
         if [[ $? == 0 ]]; then
-            echo -e "${green}Aiko-Server restarted successfully${plain}"
+            echo -e "${green}XrayR restarted successfully${plain}"
         else
-            echo -e "${red}Aiko-Server may have failed to start, please use Aiko-Server log to view log information. If it cannot be started, it may have changed the configuration format, please go to the wiki for more information: https://github.com/Aiko-Server-project/Aiko-Server/wiki${plain}"
+            echo -e "${red}XrayR may have failed to start, please use XrayR log to view log information. If it cannot be started, it may have changed the configuration format, please go to the wiki for more information: https://github.com/XrayR-project/XrayR/wiki${plain}"
         fi
     fi
 
-    if [[ ! -f /etc/Aiko-Server/dns.json ]]; then
-        cp dns.json /etc/Aiko-Server/
+    if [[ ! -f /etc/XrayR/dns.json ]]; then
+        cp dns.json /etc/XrayR/
     fi
-    if [[ ! -f /etc/Aiko-Server/route.json ]]; then
-        cp route.json /etc/Aiko-Server/
+    if [[ ! -f /etc/XrayR/route.json ]]; then
+        cp route.json /etc/XrayR/
     fi
-    if [[ ! -f /etc/Aiko-Server/custom_outbound.json ]]; then
-        cp custom_outbound.json /etc/Aiko-Server/
+    if [[ ! -f /etc/XrayR/custom_outbound.json ]]; then
+        cp custom_outbound.json /etc/XrayR/
     fi
-    if [[ ! -f /etc/Aiko-Server/custom_inbound.json ]]; then
-        cp custom_inbound.json /etc/Aiko-Server/
+    if [[ ! -f /etc/XrayR/custom_inbound.json ]]; then
+        cp custom_inbound.json /etc/XrayR/
     fi
-    if [[ ! -f /etc/Aiko-Server/AikoBlock ]]; then
-        cp AikoBlock /etc/Aiko-Server/
+    if [[ ! -f /etc/XrayR/AikoBlock ]]; then
+        cp AikoBlock /etc/XrayR/
     fi
-    curl -o /usr/bin/Aiko-Server -Ls https://raw.githubusercontent.com/AikoPanel/AikoServer/master/Aiko-Server.sh
-    chmod +x /usr/bin/Aiko-Server
-    ln -s /usr/bin/Aiko-Server /usr/bin/aiko-server # compatible lowercase
-    chmod +x /usr/bin/aiko-server
+    curl -o /usr/bin/XrayR -Ls https://raw.githubusercontent.com/datprs2k1/XrayR-Script/master/XrayR.sh
+    chmod +x /usr/bin/XrayR
+    ln -s /usr/bin/XrayR /usr/bin/XrayR # compatible lowercase
+    chmod +x /usr/bin/XrayR
     cd $cur_dir
     rm -f install.sh
     echo -e ""
-    echo "Usage of Aiko-Server management script (compatible with Aiko-Server execution, case-insensitive):"
+    echo "Usage of XrayR management script (compatible with XrayR execution, case-insensitive):"
     echo "------------------------------------------"
-    echo "Aiko-Server              - Show management menu (more functions)"
-    echo "Aiko-Server start        - Start Aiko-Server"
-    echo "Aiko-Server stop         - Stop Aiko-Server"
-    echo "Aiko-Server restart      - Restart Aiko-Server"
-    echo "Aiko-Server status       - Check Aiko-Server status"
-    echo "Aiko-Server enable       - Set Aiko-Server to start on boot"
-    echo "Aiko-Server disable      - Disable Aiko-Server to start on boot"
-    echo "Aiko-Server log          - Check Aiko-Server logs"
-    echo "Aiko-Server generate     - Generate Aiko-Server configuration file"
-    echo "Aiko-Server update       - Update Aiko-Server"
-    echo "Aiko-Server update x.x.x - Update Aiko-Server to specified version"
-    echo "Aiko-Server install      - Install Aiko-Server"
-    echo "Aiko-Server uninstall    - Uninstall Aiko-Server"
-    echo "Aiko-Server version      - Check Aiko-Server version"
+    echo "XrayR              - Show management menu (more functions)"
+    echo "XrayR start        - Start XrayR"
+    echo "XrayR stop         - Stop XrayR"
+    echo "XrayR restart      - Restart XrayR"
+    echo "XrayR status       - Check XrayR status"
+    echo "XrayR enable       - Set XrayR to start on boot"
+    echo "XrayR disable      - Disable XrayR to start on boot"
+    echo "XrayR log          - Check XrayR logs"
+    echo "XrayR generate     - Generate XrayR configuration file"
+    echo "XrayR update       - Update XrayR"
+    echo "XrayR update x.x.x - Update XrayR to specified version"
+    echo "XrayR install      - Install XrayR"
+    echo "XrayR uninstall    - Uninstall XrayR"
+    echo "XrayR version      - Check XrayR version"
     echo "------------------------------------------"
 }
 
 echo -e "${green}Starting installation${plain}"
 install_base
-install_Aiko-Server $1
+install_XrayR $1
