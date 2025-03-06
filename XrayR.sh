@@ -27,7 +27,7 @@ else
     echo -e "${red}System version not detected, please contact the script author!${plain}\n" && exit 1
 fi
 
-CONFIG_FILE="/etc/XrayR/aiko.yml"
+CONFIG_FILE="/etc/XrayR/config.yml"
 
 # os version
 if [[ -f /etc/os-release ]]; then
@@ -111,7 +111,7 @@ update() {
 
 config() {
     echo "XrayR will automatically attempt to restart after modifying the configuration"
-    nano /etc/XrayR/aiko.yml
+    nano /etc/XrayR/config.yml
     sleep 1
     check_status
     case $? in
@@ -349,8 +349,8 @@ generate_config_file() {
     echo -e "${yellow}XrayR Configuration File Wizard${plain}"
     echo -e "${red}Please read the following notes:${plain}"
     echo -e "${red}1. This feature is currently in testing${plain}"
-    echo -e "${red}2. The generated configuration file will be saved to /etc/XrayR/aiko.yml${plain}"
-    echo -e "${red}3. The original configuration file will be saved to /etc/XrayR/aiko.yml.bak${plain}"
+    echo -e "${red}2. The generated configuration file will be saved to /etc/XrayR/config.yml${plain}"
+    echo -e "${red}3. The original configuration file will be saved to /etc/XrayR/config.yml.bak${plain}"
     echo -e "${red}4. TLS is not currently supported${plain}"
     read -rp "Do you want to continue generating the configuration file? (y/n) " generate_config_file_continue
 
@@ -358,7 +358,7 @@ generate_config_file() {
         read -rp "Enter the number of nodes to configure: " num_nodes
 
         cd /etc/XrayR
-        echo "Nodes:" > /etc/XrayR/aiko.yml
+        echo "Nodes:" > /etc/XrayR/config.yml
 
         for (( i=1; i<=num_nodes; i++ )); do
             echo "Configuring Node $i..."
@@ -380,8 +380,8 @@ generate_config_file() {
                 * ) NodeType="V2ray"; DisableLocalREALITYConfig="false"; EnableVless="false"; EnableREALITY="false" ;;
             esac
 
-            cat <<EOF >> /etc/XrayR/aiko.yml
-  - PanelType: "v2board"
+            cat <<EOF >> /etc/XrayR/config.yml
+  - PanelType: "NewV2board"
     ApiConfig:
       ApiHost: "${ApiHost}"
       ApiKey: "${ApiKey}"
@@ -418,7 +418,7 @@ generate_x25519(){
 }
 
 generate_certificate(){
-    CONFIG_FILE="/etc/XrayR/aiko.yml"
+    CONFIG_FILE="/etc/XrayR/config.yml"
     echo "XrayR will automatically attempt to restart after generating the certificate"
     read -p "Please enter the domain of Cert (default: aikopanel.com): " domain
     read -p "Please enter the expire of Cert in days (default: 90 days): " expire
@@ -445,12 +445,12 @@ generate_certificate(){
 
 generate_config_default(){
     echo -e "${yellow}XrayR Default Configuration File Wizard${plain}"
-    # check /etc/XrayR/aiko.yml
-    if [[ -f /etc/XrayR/aiko.yml ]]; then
+    # check /etc/XrayR/config.yml
+    if [[ -f /etc/XrayR/config.yml ]]; then
         echo -e "${red}The configuration file already exists, please delete it first${plain}"
         read -p "${green} Do you want to delete it now? (y/n) ${plain}" delete_config
         if [[ $delete_config =~ "y"|"Y" ]]; then
-            rm -rf /etc/XrayR/aiko.yml
+            rm -rf /etc/XrayR/config.yml
             echo -e "${green}The configuration file has been deleted${plain}"
             /usr/local/XrayR/XrayR config
             echo -e "${green}The default configuration file has been generated${plain}"
