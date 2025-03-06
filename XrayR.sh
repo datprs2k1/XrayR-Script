@@ -398,8 +398,8 @@ generate_config_file() {
         Show: true
       CertConfig:
         CertMode: none
-        CertFile: /etc/XrayR/cert/aiko_server.cert
-        KeyFile: /etc/XrayR/cert/aiko_server.key
+        CertFile: /etc/XrayR/cert/xrayr.cert
+        KeyFile: /etc/XrayR/cert/xrayr.key
 EOF
         done
     else
@@ -436,8 +436,8 @@ generate_certificate(){
     /usr/local/XrayR/XrayR cert --domain "$domain" --expire "$expire"
     sed -i "s|CertMode:.*|CertMode: file|" $CONFIG_FILE
     sed -i "s|CertDomain:.*|CertDomain: ${domain}|" $CONFIG_FILE
-    sed -i "s|CertFile:.*|CertFile: /etc/XrayR/cert/aiko_server.cert|" $CONFIG_FILE
-    sed -i "s|KeyFile:.*|KeyFile: /etc/XrayR/cert/aiko_server.key|" $CONFIG_FILE
+    sed -i "s|CertFile:.*|CertFile: /etc/XrayR/cert/xrayr.cert|" $CONFIG_FILE
+    sed -i "s|KeyFile:.*|KeyFile: /etc/XrayR/cert/xrayr.key|" $CONFIG_FILE
     echo -e "${green}Successful configs !${plain}"
     read -p "Press any key to return to the menu..."
     show_menu
