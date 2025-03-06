@@ -169,9 +169,6 @@ install_XrayR() {
     if [[ ! -f /etc/XrayR/custom_inbound.json ]]; then
         cp custom_inbound.json /etc/XrayR/
     fi
-    if [[ ! -f /etc/XrayR/AikoBlock ]]; then
-        cp AikoBlock /etc/XrayR/
-    fi
     curl -o /usr/bin/XrayR -Ls https://raw.githubusercontent.com/datprs2k1/XrayR-Script/master/XrayR.sh
     chmod +x /usr/bin/XrayR
     ln -s /usr/bin/XrayR /usr/bin/XrayR # compatible lowercase
