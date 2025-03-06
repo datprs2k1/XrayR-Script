@@ -130,7 +130,7 @@ chmod +x /usr/local/bin/docker-compose
 
 ```yaml
 Nodes:
-  - PanelType: 'AikoPanel'
+  - PanelType: 'v2board'
     ApiConfig:
       ApiHost: 'http://127.0.0.1:667'
       ApiKey: '123'

@@ -381,7 +381,7 @@ generate_config_file() {
             esac
 
             cat <<EOF >> /etc/XrayR/aiko.yml
-  - PanelType: "AikoPanel"
+  - PanelType: "v2board"
     ApiConfig:
       ApiHost: "${ApiHost}"
       ApiKey: "${ApiKey}"
