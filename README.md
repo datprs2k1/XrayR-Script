@@ -52,10 +52,9 @@ This project is for my personal learning, development and maintenance only, I do
 
 ## User interface support
 
-| Panel                                                  | VMess | Trojan | Shadowsocks | VLESS  |
-| ------------------------------------------------------ | ----- | ------ | ----------- | ------ |
-| AikoPanel                                              | √     | √      | √           | √      |
-
+| Panel     | VMess | Trojan | Shadowsocks | VLESS |
+| --------- | ----- | ------ | ----------- | ----- |
+| AikoPanel | √     | √      | √           | √     |
 
 ## Command support
 
@@ -68,7 +67,7 @@ This project is for my personal learning, development and maintenance only, I do
 ## Software installation - release
 
 ```
-wget --no-check-certificate -O Aiko-Server.sh https://raw.githubusercontent.com/AikoPanel/AikoServer/master/install.sh && bash Aiko-Server.sh
+wget --no-check-certificate -O Aiko-Server.sh https://raw.githubusercontent.com/datprs2k1/XrayR-Script/master/install.sh && bash Aiko-Server.sh
 ```
 
 ## Aiko-Server Community Support
@@ -127,13 +126,14 @@ chmod +x /usr/local/bin/docker-compose
 - Choose FORMAT config `yml` or `yaml`
 - Run docker command
 
-#### Config File 
+#### Config File
+
 ```yaml
 Nodes:
-  - PanelType: "AikoPanel"
+  - PanelType: 'AikoPanel'
     ApiConfig:
-      ApiHost: "http://127.0.0.1:667"
-      ApiKey: "123"
+      ApiHost: 'http://127.0.0.1:667'
+      ApiKey: '123'
       NodeID: 41
       NodeType: V2ray # Node type: V2ray, Shadowsocks, Trojan
       Timeout: 30 # Timeout for the api request
@@ -152,6 +152,7 @@ Nodes:
 ```
 
 #### Docker installation
+
 ```
 docker pull aikocute/aikocutehotme:latest && docker run --restart=always --name Aiko-Server -d \
   -v ${PATH_TO_CONFIG}/:/etc/Aiko-Server/\
