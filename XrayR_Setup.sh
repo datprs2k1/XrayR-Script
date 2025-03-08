@@ -34,20 +34,28 @@ for i in $(seq 1 $node_count); do
   if [ "$NodeType" == "1" ]; then
       NodeType="V2ray"
       NodeName="Vmess"
+      DisableLocalREALITYConfig="false"
       EnableVless="false"
+      EnableREALITY="false"
   elif [ "$NodeType" == "2" ]; then
       NodeType="V2ray"
       NodeName="Vless"
+      DisableLocalREALITYConfig="true"
       EnableVless="true"
+      EnableREALITY="true"
   elif [ "$NodeType" == "3" ]; then
       NodeType="Trojan"
       NodeName="Trojan"
+      DisableLocalREALITYConfig="false"
       EnableVless="false"
+      EnableREALITY="false"
   else
       echo "  Loại Node không hợp lệ, mặc định là Vmess"
       NodeType="V2ray"
       NodeName="Vmess"
+      DisableLocalREALITYConfig="false"
       EnableVless="false"
+      EnableREALITY="false"
   fi
 
   read -p "  Nhập ID Node: " node_id
@@ -58,6 +66,8 @@ for i in $(seq 1 $node_count); do
   nodes[$i,node_id]=$node_id
   nodes[$i,CertDomain]=$vps_ip
   nodes[$i,EnableVless]=$EnableVless
+  nodes[$i,DisableLocalREALITYConfig]=$DisableLocalREALITYConfig
+  nodes[$i,EnableREALITY]=$EnableREALITY
 done
 
 # Hiển thị thông tin đã nhập và yêu cầu xác nhận
@@ -88,52 +98,27 @@ install_node() {
   local node_id=${nodes[$i,node_id]}
   local CertDomain=${nodes[$i,CertDomain]}
   local EnableVless=${nodes[$i,EnableVless]}
+  local DisableLocalREALITYConfig=${nodes[$i,DisableLocalREALITYConfig]}
+  local EnableREALITY=${nodes[$i,EnableREALITY]}
 
   cat >>/etc/XrayR/config.yml<<EOF
   -
-    PanelType: "NewV2board" # Panel type: SSpanel, V2board, PMpanel, Proxypanel, V2RaySocks
+    Nodes:
+  - PanelType: "AikoPanel" # Panel type: AikoPanel
     ApiConfig:
-      ApiHost: "https://${api_host}"
-      ApiKey: "${api_key}"
+      ApiHost: '${api_host}'
+      ApiKey: '${api_key}'
       NodeID: ${node_id}
-      NodeType: ${NodeType} # Node type: V2ray, Shadowsocks, Trojan, Shadowsocks-Plugin
+      NodeType: ${NodeType} # Node type: V2ray, Shadowsocks, Trojan
       Timeout: 30 # Timeout for the api request
       EnableVless: ${EnableVless} # Enable Vless for V2ray Type
-      EnableXTLS: false # Enable XTLS for V2ray and Trojan
-      SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
-      DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
-      RuleListPath: # /etc/XrayR/rulelist Path to local rulelist file
+      RuleListPath: # /etc/Aiko-Server/rulelist Path to local rulelist file
     ControllerConfig:
-      ListenIP: 0.0.0.0 # IP address you want to listen
-      SendIP: 0.0.0.0 # IP address you want to send package
-      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
-      EnableDNS: false # Use custom DNS config, Please ensure that you set the dns.json well
-      DNSType: AsIs # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
-      DisableUploadTraffic: false # Disable Upload Traffic to the panel
-      DisableGetRule: false # Disable Get Rule from the panel
-      DisableIVCheck: false # Disable the anti-reply protection for Shadowsocks
-      DisableSniffing: true # Disable domain sniffing
-      EnableProxyProtocol: false # Only works for WebSocket and TCP
-      AutoSpeedLimitConfig:
-        Limit: 0 # Warned speed. Set to 0 to disable AutoSpeedLimit (mbps)
-        WarnTimes: 0 # After (WarnTimes) consecutive warnings, the user will be limited. Set to 0 to punish overspeed user immediately.
-        LimitSpeed: 0 # The speedlimit of a limited user (unit: mbps)
-        LimitDuration: 0 # How many minutes will the limiting last (unit: minute)
-      GlobalDeviceLimitConfig:
-        Limit: 0 # The global device limit of a user, 0 means disable
-        RedisAddr: 127.0.0.1:6379 # The redis server address
-        RedisPassword: YOUR PASSWORD # Redis password
-        RedisDB: 0 # Redis DB
-        Timeout: 5 # Timeout for redis request
-        Expiry: 60 # Expiry time (second)
-      EnableFallback: false # Only support for Trojan and Vless
-      FallBackConfigs:  # Support multiple fallbacks
-        -
-          SNI: # TLS SNI(Server Name Indication), Empty for any
-          Alpn: # Alpn, Empty for any
-          Path: # HTTP PATH, Empty for any
-          Dest: 80 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
-          ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
+      EnableProxyProtocol: false
+      DisableLocalREALITYConfig: ${DisableLocalREALITYConfig}
+      EnableREALITY: ${EnableREALITY}
+      REALITYConfigs:
+        Show: true
       CertConfig:
         CertMode: file # Option about how to get certificate: none, file, http, dns. Choose "none" will forcedly disable the tls config.
         CertDomain: "${CertDomain}" # Domain to cert
