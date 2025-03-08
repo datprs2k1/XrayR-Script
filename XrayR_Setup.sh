@@ -102,8 +102,6 @@ install_node() {
   local EnableREALITY=${nodes[$i,EnableREALITY]}
 
   cat >>/etc/XrayR/config.yml<<EOF
-  -
-    Nodes:
   - PanelType: "NewV2board" # Panel type: AikoPanel
     ApiConfig:
       ApiHost: '${api_host}'
