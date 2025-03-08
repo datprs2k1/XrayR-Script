@@ -104,7 +104,7 @@ install_node() {
   cat >>/etc/XrayR/config.yml<<EOF
   -
     Nodes:
-  - PanelType: "AikoPanel" # Panel type: AikoPanel
+  - PanelType: "NewV2board" # Panel type: AikoPanel
     ApiConfig:
       ApiHost: '${api_host}'
       ApiKey: '${api_key}'
