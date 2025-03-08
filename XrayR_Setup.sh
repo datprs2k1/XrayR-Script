@@ -104,7 +104,7 @@ install_node() {
   cat >>/etc/XrayR/config.yml<<EOF
   - PanelType: "NewV2board" # Panel type: AikoPanel
     ApiConfig:
-      ApiHost: '${api_host}'
+      ApiHost: 'https://${api_host}'
       ApiKey: '${api_key}'
       NodeID: ${node_id}
       NodeType: ${NodeType} # Node type: V2ray, Shadowsocks, Trojan
