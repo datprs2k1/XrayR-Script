@@ -110,7 +110,7 @@ install_node() {
       NodeType: ${NodeType} # Node type: V2ray, Shadowsocks, Trojan
       Timeout: 30 # Timeout for the api request
       EnableVless: ${EnableVless} # Enable Vless for V2ray Type
-      RuleListPath: # /etc/Aiko-Server/rulelist Path to local rulelist file
+      RuleListPath: /etc/XrayR/rulelist Path to local rulelist file
     ControllerConfig:
       EnableProxyProtocol: false
       DisableLocalREALITYConfig: ${DisableLocalREALITYConfig}
