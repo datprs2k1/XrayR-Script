@@ -164,7 +164,8 @@ install_XrayR() {
     echo ""
     echo -e "  XrayR ${last_version} Quá trình cài đặt hoàn tất, nó đã được bật để khởi động tự động"
     cp geoip.dat /etc/XrayR/
-    cp geosite.dat /etc/XrayR/ 
+    cp geosite.dat /etc/XrayR/
+    cp rulelist  /etc/XrayR/
 
     if [[ ! -f /etc/XrayR/config.yml ]]; then
         cp config.yml /etc/XrayR/
